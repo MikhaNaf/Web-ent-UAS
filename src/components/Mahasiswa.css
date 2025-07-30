@@ -1,0 +1,138 @@
+
+
+
+.app-container {
+  width: 100%;
+  max-width: 1280px; 
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2.5rem; 
+  font-weight: bold;
+  color: #1a202c;
+}
+
+.header p {
+  font-size: 1.1rem; 
+  color: #718096;
+  margin-top: 0.5rem;
+}
+
+
+.form-section, .list-section {
+  background-color: #ffffff;
+  border-radius: 0.75rem; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  padding: 2.5rem; 
+}
+
+.list-section {
+  margin-top: 2.5rem;
+}
+
+
+.btn {
+  font-weight: bold;
+  padding: 0.75rem 1.5rem; 
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem; 
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary { background-color: #3b82f6; color: white; }
+.btn-primary:hover { background-color: #2563eb; }
+
+.btn-warning { background-color: #f59e0b; color: white; margin-right: 0.5rem; }
+.btn-warning:hover { background-color: #d97706; }
+
+.btn-danger { background-color: #ef4444; color: white; }
+.btn-danger:hover { background-color: #dc2626; }
+
+.btn-secondary { background-color: #e5e7eb; color: #374151; }
+.btn-secondary:hover { background-color: #d1d5db; }
+
+.btn-success { background-color: #22c55e; color: white; }
+.btn-success:hover { background-color: #16a34a; }
+
+
+.search-container {
+  margin-bottom: 1.5rem;
+}
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1.1rem; 
+  font-size: 1.1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+}
+
+
+.table-container { overflow-x: auto; }
+.student-table { width: 100%; border-collapse: collapse; }
+.student-table thead { background-color: #f8fafc; }
+.student-table th, .student-table td { 
+  padding: 1rem 1.2rem; 
+  border-bottom: 1px solid #e2e8f0; 
+  text-align: left; 
+  vertical-align: middle;
+  font-size: 1rem; 
+}
+.student-table th { font-size: 0.85rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; }
+.student-table tbody tr:hover { background-color: #f9fafb; }
+.table-actions { text-align: right; }
+.status-badge { padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; }
+.status-active { background-color: #dcfce7; color: #166534; }
+.status-inactive { background-color: #fee2e2; color: #991b1b; }
+
+
+.student-form h2 { font-size: 1.75rem; font-weight: bold; color: #1a202c; margin-bottom: 2rem; }
+.form-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1.75rem; }
+@media (min-width: 768px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
+.form-group { display: flex; flex-direction: column; position: relative; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label { margin-bottom: 0.6rem; font-weight: 500; font-size: 1rem; color: #374151; }
+.form-group input, .form-group select, .form-group textarea { 
+  padding: 0.8rem 1rem; 
+  border: 1px solid #d1d5db; 
+  border-radius: 0.5rem; 
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
+  font-size: 1.1rem; 
+  transition: all 0.2s; 
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); }
+.form-group input[disabled] { background-color: #f3f4f6; cursor: not-allowed; }
+.form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; grid-column: 1 / -1; }
+
+
+.validation-error {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+
+.loading-message, .empty-message { text-align: center; padding: 2rem; color: #6b7280; font-size: 1.1rem; }
+.error-message { background-color: #fef2f2; border: 1px solid #fca5a5; color: #b91c1c; padding: 1rem; border-radius: 0.375rem; }
+.error-message strong { font-weight: bold; }
+
+
+.footer { text-align: center; margin-top: 2.5rem; color: #6b7280; font-size: 0.875rem; }
