@@ -3,7 +3,7 @@ import type { ChangeEvent, FormEvent } from 'react';
 import supabase from '../utils/supabase';
 import './Mahasiswa.css';
 
-
+// Definisi Tipe untuk Data Mahasiswa dan Error Form
 interface Mahasiswa {
   Nim: string;
   Name: string;
@@ -26,10 +26,13 @@ const initialFormState: Mahasiswa = {
   Status: true,
 };
 
-
+// =================================================================================
+// Komponen Utama Aplikasi
+// =================================================================================
 export default function Mahasiswa() {
   const [students, setStudents] = useState<Mahasiswa[]>([]);
   const [studentToEdit, setStudentToEdit] = useState<Mahasiswa | null>(null);
+  const [studentToView, setStudentToView] = useState<Mahasiswa | null>(null); // State baru untuk modal
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -77,11 +80,11 @@ export default function Mahasiswa() {
       
       setStudentToEdit(null);
       await fetchStudents();
-      return true; 
+      return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
       setError(errorMessage);
-      return false; 
+      return false;
     } finally {
       setLoading(false);
     }
@@ -103,13 +106,21 @@ export default function Mahasiswa() {
         const { error } = await supabase.from('Mahasiswa').delete().eq('Nim', nim);
         if (error) throw error;
         await fetchStudents();
-      } catch (err) { 
+      } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
         setError(errorMessage);
       } finally {
         setLoading(false);
       }
     }
+  };
+
+  const handleView = (student: Mahasiswa) => {
+    setStudentToView(student);
+  };
+
+  const handleCloseView = () => {
+    setStudentToView(null);
   };
 
   return (
@@ -126,17 +137,23 @@ export default function Mahasiswa() {
         students={filteredStudents}
         onEdit={handleEdit} 
         onDelete={handleDelete}
+        onView={handleView}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         loading={loading}
         error={error}
       />
+      {studentToView && (
+        <StudentDetailModal student={studentToView} onClose={handleCloseView} />
+      )}
       <Footer />
     </div>
   );
 }
 
-
+// =================================================================================
+// Komponen Tambahan
+// =================================================================================
 
 const Header = () => (
   <header className="header">
@@ -146,7 +163,7 @@ const Header = () => (
 
 interface StudentFormProps {
   studentToEdit?: Mahasiswa | null;
-  onSave: (data: Mahasiswa) => Promise<boolean>; 
+  onSave: (data: Mahasiswa) => Promise<boolean>;
   onClear: () => void;
   isLoading: boolean;
 }
@@ -253,13 +270,14 @@ interface StudentListProps {
   students: Mahasiswa[];
   onEdit: (student: Mahasiswa) => void;
   onDelete: (nim: string) => void;
+  onView: (student: Mahasiswa) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   loading: boolean;
   error: string | null;
 }
 
-const StudentList = ({ students, onEdit, onDelete, searchTerm, setSearchTerm, loading, error }: StudentListProps) => {
+const StudentList = ({ students, onEdit, onDelete, onView, searchTerm, setSearchTerm, loading, error }: StudentListProps) => {
   return (
     <section className="list-section">
       <h2>Daftar Mahasiswa</h2>
@@ -294,6 +312,7 @@ const StudentList = ({ students, onEdit, onDelete, searchTerm, setSearchTerm, lo
                   <td>{student.Gender === 'L' ? 'Laki-laki' : 'Perempuan'}</td>
                   <td><span className={`status-badge ${student.Status ? 'status-active' : 'status-inactive'}`}>{student.Status ? 'Aktif' : 'Tidak Aktif'}</span></td>
                   <td className="table-actions">
+                    <button onClick={() => onView(student)} className="btn btn-info">View</button>
                     <button onClick={() => onEdit(student)} className="btn btn-warning">Edit</button>
                     <button onClick={() => onDelete(student.Nim)} className="btn btn-danger">Hapus</button>
                   </td>
@@ -312,8 +331,51 @@ const StudentList = ({ students, onEdit, onDelete, searchTerm, setSearchTerm, lo
   );
 };
 
+interface StudentDetailModalProps {
+  student: Mahasiswa;
+  onClose: () => void;
+}
+
+const StudentDetailModal = ({ student, onClose }: StudentDetailModalProps) => {
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>Detail Mahasiswa</h2>
+          <button onClick={onClose} className="modal-close-btn">&times;</button>
+        </div>
+        <dl className="detail-grid">
+          <dt>NIM</dt>
+          <dd>{student.Nim}</dd>
+
+          <dt>Nama Lengkap</dt>
+          <dd>{student.Name}</dd>
+
+          <dt>Jenis Kelamin</dt>
+          <dd>{student.Gender === 'L' ? 'Laki-laki' : 'Perempuan'}</dd>
+
+          <dt>Tanggal Lahir</dt>
+          <dd>{new Date(student.BirthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</dd>
+
+          <dt>Alamat</dt>
+          <dd>{student.Address || '-'}</dd>
+
+          <dt>Kontak</dt>
+          <dd>{student.Contact || '-'}</dd>
+
+          <dt>Status</dt>
+          <dd><span className={`status-badge ${student.Status ? 'status-active' : 'status-inactive'}`}>{student.Status ? 'Aktif' : 'Tidak Aktif'}</span></dd>
+        </dl>
+        <div className="modal-footer">
+          <button onClick={onClose} className="btn btn-secondary">Tutup</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Footer = () => (
   <footer className="footer">
-    <p>UAS Mikha Naftali &copy; {new Date().getFullYear()}</p>
+    <p>Studi Kasus Front-End & Supabase &copy; {new Date().getFullYear()}</p>
   </footer>
 );
