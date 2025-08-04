@@ -3,7 +3,7 @@ import type { ChangeEvent, FormEvent } from 'react';
 import supabase from '../utils/supabase';
 import './Mahasiswa.css';
 
-// Definisi Tipe untuk Data Mahasiswa dan Error Form
+
 interface Mahasiswa {
   Nim: string;
   Name: string;
@@ -26,13 +26,11 @@ const initialFormState: Mahasiswa = {
   Status: true,
 };
 
-// =================================================================================
-// Komponen Utama Aplikasi
-// =================================================================================
+
 export default function Mahasiswa() {
   const [students, setStudents] = useState<Mahasiswa[]>([]);
   const [studentToEdit, setStudentToEdit] = useState<Mahasiswa | null>(null);
-  const [studentToView, setStudentToView] = useState<Mahasiswa | null>(null); // State baru untuk modal
+  const [studentToView, setStudentToView] = useState<Mahasiswa | null>(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -151,9 +149,6 @@ export default function Mahasiswa() {
   );
 }
 
-// =================================================================================
-// Komponen Tambahan
-// =================================================================================
 
 const Header = () => (
   <header className="header">
